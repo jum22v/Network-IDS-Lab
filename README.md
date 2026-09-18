@@ -1,6 +1,6 @@
 # Network Intrusion Detection Lab — Arch Linux
 
-A local, isolated lab combining tcpdump/Wireshark, Suricata custom rules, Python/Pandas analysis, and a Streamlit dashboard. Built with Juan Morales through a guided lab on September 18, 2026.
+A local, isolated lab combining tcpdump/Wireshark, Suricata custom rules, Python/Pandas analysis, and a Streamlit dashboard.
 
 **Main finding:** a SYN-count rule flagged both repeated normal HTTP requests and a port scan. A rolling distinct-destination-port detector removed that observed benign false positive while still detecting the tested scan. This is evidence from three controlled scenarios, not an estimate of production performance.
 
@@ -25,35 +25,7 @@ A local, isolated lab combining tcpdump/Wireshark, Suricata custom rules, Python
 | `docs/VALIDATION.md` | Checks performed on this packaged implementation |
 | `tests/test_core.py` | Synthetic offline boundary and parsing checks |
 
-**Not included:** your original PCAPs, EVE logs, installed Suricata configuration, screenshots, or virtual environment. Those remain on your Arch computer. The recorded results came from your pasted output; they were not recomputed from unavailable original captures.
-
-This package consolidates the working tutorial into shared functions and scripts. It is not a byte-for-byte backup of your existing local folder. The dashboard adds verified capture/log pairing for new runs; legacy logs remain available through an explicitly unverified selector.
-
-## Use with your existing project
-
-Extract this archive into a **new folder**, such as `~/Projects/network-ids-lab-packaged`, initially. Keep your working project intact. Copy the three captures from your original `captures/` folder into the new `captures/`. Optionally copy your existing log folders into `logs/` for legacy viewing. Copying files does not recreate running namespaces.
-
-Run the commands below from the extracted project root. Create a fresh virtual environment instead of copying `.venv` from another directory.
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python scripts/init_config.py
-```
-
-If you reuse an existing corrected project configuration, the initializer refuses to overwrite `config/suricata.yaml`. A fresh config copy still needs validation. For your known virtual-interface captures:
-
-```bash
-python scripts/run_ids.py captures/benign-01.pcap --rules rules/local.rules --skip-checksums
-python scripts/run_ids.py captures/http-test-01.pcap --rules rules/http.rules --skip-checksums
-python scripts/run_ids.py captures/scan-01.pcap --rules rules/scan.rules --skip-checksums
-python -m streamlit run dashboard/app.py --server.address 127.0.0.1
-```
-
-Open **http://localhost:8501**. Select a capture, then its matching run. These new runs do not depend on `$http_run` or `$scan_run` terminal variables.
-
-## Installation from scratch on Arch
+## Installation from scratch on Arch (Linux distro I used)
 
 ### System tools
 
@@ -71,7 +43,7 @@ Arch is rolling release software. Names and AUR recipes can change. This lab was
 
 ### Suricata via the AUR
 
-Suricata was not available in the user's enabled official repositories. The AUR recipe required `vectorscan`, which also needed to be built first. AUR recipes are executable community-maintained build instructions: inspect `PKGBUILD` and any associated install/patch files before building. Do not run `makepkg` as root.
+Suricata was not available in my enabled official repositories. The AUR recipe required `vectorscan`, which also needed to be built first. AUR recipes are executable community-maintained build instructions: inspect `PKGBUILD` and any associated install/patch files before building. Do not run `makepkg` as root.
 
 ```bash
 mkdir -p ~/Builds
@@ -261,10 +233,6 @@ bash scripts/lab_down.sh
 ```
 
 Cleanup refuses to remove namespaces with running processes. Reboot also removes this temporary network. Captures and logs on disk remain. Stop Streamlit separately with Ctrl+C.
-
-## Suggested next experiments
-
-Run new captures for nine distinct ports, exactly ten ports, repeated requests to one port, and a slow scan. Keep labels and expected outcomes separate from detections. Test traffic from a second source only after deliberately extending the lab and scope. Record authorized activity that resembles scanning. Do not claim these live experiments have been completed: the package includes synthetic boundary tests, while the original live lab covered the three scenarios above.
 
 ## References
 
