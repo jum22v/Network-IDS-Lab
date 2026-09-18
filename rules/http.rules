@@ -1,0 +1,1 @@
+alert http 10.200.1.1 any -> 10.200.1.2 8000 (msg:"LAB HTTP request for .env"; flow:established,to_server; http.uri; content:"/.env"; bsize:5; sid:1000002; rev:1;)

@@ -1,0 +1,1 @@
+alert icmp 10.200.1.1 any -> 10.200.1.2 any (msg:"LAB ICMP echo request"; itype:8; sid:1000001; rev:1;)

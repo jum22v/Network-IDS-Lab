@@ -1,0 +1,1 @@
+alert tcp 10.200.1.1 any -> 10.200.1.2 any (msg:"LAB Repeated TCP SYN attempts"; flags:S; threshold:type both, track by_src, count 10, seconds 60; sid:1000003; rev:1;)
