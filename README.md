@@ -1,4 +1,4 @@
-# Network Intrusion Detection Lab — Arch Linux
+# Network Intrusion Detection Lab on Arch Linux
 
 A local, isolated lab combining tcpdump/Wireshark, Suricata custom rules, Python/Pandas analysis, and a Streamlit dashboard.
 
